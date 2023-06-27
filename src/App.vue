@@ -59,35 +59,6 @@ onMounted(() => {
     }
   })
 })
-
-// export default defineComponent({
-//   name: "App",
-//   components: {
-//     HelloWorld,
-//     Offline,
-//     // ReloadPWA,
-//   },
-//   data: function () {
-//     return {
-//       isOnline: online,
-//       errorMsg: ''
-//     }
-//   },
-//   methods: {
-//     clearErrorMsg: function () {
-//       this.errorMsg = ''
-//     }
-//   },
-//   mounted: function () {
-//     onErrorCaptured((error) => {
-//       if (!this.isOnline && error.message.includes('Failed to fetch dynamically imported module')) {
-//         this.errorMsg = 'Failed to fetch dynamically imported module'
-//       } else {
-//         this.errorMsg = ''
-//       }
-//     })
-//   }
-// });
 </script>
 
 <template>
