@@ -23,12 +23,13 @@ export default defineConfig({
       },
       // includeAssets: ['img/icons/favicon-16x16.png', 'img/icons/apple-touch-icon.png'],
       manifest: {
-        name: "Vue3 Project",
-        short_name: "Vue3Project",
+        name: "PWA Vue3",
+        short_name: "PWA-Vue3",
         theme_color: "#40B883",
         start_url: "/",
         display: "standalone",
         background_color: "#ffffff",
+        description: "PWA Vue3 + Vite",
         icons: [
           {
             src: "img/icons/android-chrome-192x192.png",

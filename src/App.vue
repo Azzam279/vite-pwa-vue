@@ -23,28 +23,30 @@ const app = initializeApp(firebaseConfig)
 // subsequent calls to getToken will return from cache.
 const messaging = getMessaging();
 onMessage(messaging, (payload) => {
-  console.log('Message received. ', payload);
+  console.log('Message received. ', payload)
   // ...
 });
 
+let token = ref('')
 getToken(messaging, { vapidKey: 'BHpTqQ3Fy7Otl49rSX7Jx11NwHd5AVRuR1GRlj3dxZENUpGAXNSXQCVDUKNsb73w0N-3b11LFGbeVAqFcnVzXsA' }).then((currentToken) => {
   if (currentToken) {
     // Send the token to your server and update the UI if necessary
-    console.log("Token is: ", currentToken);
+    console.log("Token is: ", currentToken)
+    token.value = currentToken
     // ...
   } else {
     // Show permission request UI
-    console.log('No registration token available. Request permission to generate one.');
+    console.log('No registration token available. Request permission to generate one.')
     // ...
   }
 }).catch((err) => {
-  console.log('An error occurred while retrieving token. ', err);
+  console.log('An error occurred while retrieving token. ', err)
   // ...
 });
 
 const online = useOnline()
 const isOnline = ref(online)
-const errorMsg = ref('')
+let errorMsg = ref('')
 
 const clearErrorMsg = function () {
   errorMsg = ''
@@ -63,7 +65,6 @@ onMounted(() => {
 
 <template>
   <!-- <ReloadPWA /> -->
-  {{ errorMsg }}
   <div class="row" v-if="isOnline || !errorMsg">
     <div class="col-6 left-section">
       <div>
@@ -75,6 +76,7 @@ onMounted(() => {
         </a>
       </div>
       <HelloWorld msg="Vite + Vue" />
+      <p id="token"><b>Token:</b> {{ token }}</p>
     </div>
     <div class="col-6 right-section">
       <nav>
@@ -146,5 +148,22 @@ onMounted(() => {
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+
+#token {
+  width: 100%;
+  font-size: 12px;
+  line-break: anywhere;
+  padding-right: 1em;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 767px) {
+  .row {
+    .col-6 {
+      width: 100%;
+      display: block;
+    }
+  }
 }
 </style>
