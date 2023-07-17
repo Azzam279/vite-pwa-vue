@@ -19,7 +19,7 @@ function shuffle(array) {
   return newArray
 }
 
-fetch(`http://www.omdbapi.com/?apikey=15b675db&s=${titles[random]}&type=movie&y=2023&page=1`)
+fetch(`https://www.omdbapi.com/?apikey=15b675db&s=${titles[random]}&type=movie&y=2023&page=1`)
   .then(response => response.json())
   .then(data => movies.value = shuffle(data.Search))
   .catch(err => console.log('error', err))
