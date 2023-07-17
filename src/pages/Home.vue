@@ -28,10 +28,17 @@ fetch(`https://www.omdbapi.com/?apikey=15b675db&s=${titles[random]}&type=movie&y
 <template>
   <div>
     <h1>The Open Movie Database</h1>
-    <div v-for="movie of movies" class="movies">
+    <div
+      class="movies"
+      v-for="movie of movies"
+      v-if="movies"
+    >
       <img :src="movie.Poster !== 'N/A' ? movie.Poster : 'https://stuartanddunn.officechoice.com.au/Images/ProductImages/product-image-1.png'" alt="poster">
       <h4>{{ movie.Title }}</h4>
       <h6>{{ movie.Year }}</h6>
+    </div>
+    <div v-else>
+      <center>Loading...</center><br>
     </div>
   </div>
 </template>
