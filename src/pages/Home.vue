@@ -44,6 +44,13 @@ fetch(`https://www.omdbapi.com/?apikey=15b675db&s=${titles[random]}&type=movie&y
 </template>
 
 <style lang="scss" scoped>
+  *, *:before, *:after {
+    -webkit-box-sizing: border-box !important;
+    -moz-box-sizing: border-box !important;
+    -ms-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+  }
+
   h1 {
     font-size: 24px;
     margin-bottom: 24px;
@@ -51,8 +58,10 @@ fetch(`https://www.omdbapi.com/?apikey=15b675db&s=${titles[random]}&type=movie&y
   }
 
   .movies {
+    overflow: hidden;
+
     img {
-      width: auto;
+      width: 100%;
       max-width: 310px;
       padding: 4px;
       border: solid 1px #ddd;
