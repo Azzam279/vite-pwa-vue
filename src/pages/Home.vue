@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { set, get } from 'idb-keyval'
 
 const titles = ['fight', 'ring', 'space', 'war', 'hero', 'animal', 'kingdom', 'witch']
 const random = Math.floor(Math.random() * titles.length)
@@ -21,8 +22,16 @@ function shuffle(array) {
 
 fetch(`https://www.omdbapi.com/?apikey=15b675db&s=${titles[random]}&type=movie&y=2023&page=1`)
   .then(response => response.json())
-  .then(data => movies.value = shuffle(data.Search))
-  .catch(err => console.log('error', err))
+  .then(data => {
+    set('omdbapi', data)
+    movies.value = shuffle(data.Search)
+  })
+  .catch(err => {
+    console.log('error', err)
+    get('omdbapi').then((response) => {
+      movies.value = shuffle(response.Search)
+    })
+  })
 </script>
 
 <template>

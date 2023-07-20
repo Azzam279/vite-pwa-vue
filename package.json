@@ -10,6 +10,7 @@
   "dependencies": {
     "@vueuse/core": "^10.2.0",
     "firebase": "^9.23.0",
+    "idb-keyval": "^6.2.1",
     "register-service-worker": "^1.7.2",
     "sass": "^1.63.6",
     "vue": "^3.2.47",
