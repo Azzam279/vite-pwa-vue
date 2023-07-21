@@ -1,7 +1,7 @@
 import { cleanupOutdatedCaches, precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching'
 import { clientsClaim } from 'workbox-core'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
-import { set } from 'idb-keyval'
+import { set, get } from 'idb-keyval'
 
 // self.addEventListener('message', (event) => {
 //   if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting()
@@ -22,21 +22,29 @@ registerRoute(new NavigationRoute(
   { allowlist }
 ))
 
+function omdbApi(url) {
+  let value = {}
+  get('omdbapi').then(val => value = val)
+
+  return fetch(url)
+    .then(response => {
+      response.clone().json().then(data => {
+        set('omdbapi', data)
+      }).catch(e => console.log(e, 'err clone'))
+
+      return response
+    })
+    .catch(error => {
+      console.log(error)
+      return new Response(JSON.stringify(value), {
+        headers: {'Content-Type': 'application/json'}
+      })
+    })
+}
+
 self.addEventListener('fetch', (evt) => {
   if (evt.request.url.includes('https://www.omdbapi.com/?apikey=15b675db')) {
-    evt.respondWith(
-      fetch(evt.request.url)
-        .then(response => {
-          response.clone().json().then(data => {
-            set('omdbapi', data)
-          }).catch(e => console.log(e, 'err clone'))
-
-          return response
-        })
-        .catch(error => {
-          return error
-        })
-    )
+    evt.respondWith(omdbApi(evt.request.url))
   }
 })
 
