@@ -22,24 +22,27 @@ registerRoute(new NavigationRoute(
   { allowlist }
 ))
 
-function omdbApi(url) {
-  let value = {}
-  get('omdbapi').then(val => value = val)
+async function omdbApi(url) {
+  const fetchRequest = async (url, value) => {
+    return fetch(url)
+      .then(response => {
+        response.clone().json().then(data => {
+          set('omdbapi', data)
+        }).catch(e => console.log(e, 'err clone'))
 
-  return fetch(url)
-    .then(response => {
-      response.clone().json().then(data => {
-        set('omdbapi', data)
-      }).catch(e => console.log(e, 'err clone'))
-
-      return response
-    })
-    .catch(error => {
-      console.log(error)
-      return new Response(JSON.stringify(value), {
-        headers: {'Content-Type': 'application/json'}
+        return response
       })
-    })
+      .catch(error => {
+        console.log(error)
+        return new Response(JSON.stringify(value), {
+          headers: {'Content-Type': 'application/json'}
+        })
+      })
+  }
+
+  return get('omdbapi')
+    .then(val => fetchRequest(url, val))
+    .catch(val => fetchRequest(url, val))
 }
 
 self.addEventListener('fetch', (evt) => {
